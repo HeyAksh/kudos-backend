@@ -11,11 +11,11 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "appstore") // Lowercase table name
+@Table(name = "appstore")
 public class AppStore {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // For auto-increment in PostgreSQL
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
@@ -26,10 +26,6 @@ public class AppStore {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @Lob
-    @Column(name = "image", columnDefinition = "BYTEA")
-    private byte[] image;
-
-    @Column(name = "download_url")
-    private String downloadUrl;
+    @Column(name = "productImageUrl")
+    private String productImageUrl;
 }
