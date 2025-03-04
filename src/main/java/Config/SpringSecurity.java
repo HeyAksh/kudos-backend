@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -16,7 +17,7 @@ public class SpringSecurity {
                         .requestMatchers("/employee/**").authenticated()
                         .requestMatchers("/app-store/**").permitAll()
                         .requestMatchers("/event/**").permitAll())
-                .csrf(customizer -> customizer.disable());
+                .csrf(AbstractHttpConfigurer::disable);
         return http.build();
     }
 }

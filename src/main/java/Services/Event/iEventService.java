@@ -1,9 +1,9 @@
-package Services.Events;
+package Services.Event;
 
 import Model.Events;
 import java.util.List;
 
-public interface iEventsService {
+public interface iEventService {
     Events addEvent(Integer employeeId, Events event);
     List<Events> getAllEvents();
     Events getEventById(Integer eventId);

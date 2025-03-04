@@ -1,10 +1,10 @@
-package Services.Events;
+package Services.Event;
 
 import Model.Events;
 
 import java.util.List;
 
-public class EventsService implements iEventsService {
+public class EventService implements iEventService {
     @Override
     public Events addEvent(Integer employeeId, Events event) {
         return null;
