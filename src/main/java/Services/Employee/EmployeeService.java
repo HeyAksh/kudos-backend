@@ -53,7 +53,7 @@ public class EmployeeService implements iEmployeeService{
     }
 
     @Override
-    public List<Event> getEventsById(Integer id) {
+    public List<Event> getEventsByEmployeeId(Integer id) {
         Employee employee = getEmployeeById(id);
         if (employee == null) {
             return null;

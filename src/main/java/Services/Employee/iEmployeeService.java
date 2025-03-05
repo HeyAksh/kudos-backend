@@ -11,5 +11,5 @@ public interface iEmployeeService {
     boolean deleteEmployeeById(Integer id);
     List<Employee> getAllEmployees();
     Employee updateEmployee(Integer id, Employee employee);
-    List<Event> getEventsById(Integer id);
+    List<Event> getEventsByEmployeeId(Integer id);
 }
