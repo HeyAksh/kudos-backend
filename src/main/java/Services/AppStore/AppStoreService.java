@@ -1,12 +1,13 @@
 package Services.AppStore;
 
+import Exceptions.ProductNotFoundException;
 import Model.AppStore;
 import Repository.AppStoreRepository;
+import Requests.AddProductRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AppStoreService implements iAppStoreInterface{
@@ -15,29 +16,47 @@ public class AppStoreService implements iAppStoreInterface{
     private AppStoreRepository appStoreRepository;
 
     @Override
-    public AppStore addProduct(AppStore product) {
-        return appStoreRepository.save(product);
+    public AppStore addProduct(AddProductRequest request) {
+        return appStoreRepository.save(helperForAddingProduct(request));
+    }
+
+    private AppStore helperForAddingProduct(AddProductRequest request){
+        return new AppStore(
+                request.getName(),
+                request.getPrice(),
+                request.getDescription(),
+                request.getProductImageUrl()
+        );
     }
 
     @Override
     public AppStore getProductById(Integer id) {
-        Optional<AppStore> product = appStoreRepository.findById(id);
-        return product.orElse(null);
+        return appStoreRepository.findById(id)
+                .orElseThrow(()->new ProductNotFoundException("Product Not Found!"));
     }
 
     @Override
-    public boolean deleteProductById(Integer id) {
-        if (appStoreRepository.existsById(id)) {
-            appStoreRepository.deleteById(id);
-            return true;
-        }
-        else {
-            return false;
-        }
+    public void deleteProductById(Integer id) {
+        appStoreRepository.findById(id).ifPresentOrElse(appStoreRepository::delete,
+                ()->{throw new ProductNotFoundException("Product Not Found!");});
     }
 
     @Override
     public List<AppStore> getAllProducts() {
         return appStoreRepository.findAll();
+    }
+
+    @Override
+    public AppStore updateProduct(Integer id, AppStore request) {
+        AppStore existingProduct = getProductById(id);
+        helperForUpdatingProduct(existingProduct,request);
+        return appStoreRepository.save(existingProduct);
+    }
+
+    private void helperForUpdatingProduct(AppStore existingProduct , AppStore request){
+        existingProduct.setName(request.getName());
+        existingProduct.setPrice(request.getPrice());
+        existingProduct.setDescription(request.getDescription());
+        existingProduct.setProductImageUrl(request.getProductImageUrl());
     }
 }

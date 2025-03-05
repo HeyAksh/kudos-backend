@@ -9,7 +9,6 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "appstore")
 public class AppStore {
@@ -28,4 +27,11 @@ public class AppStore {
 
     @Column(name = "productImageUrl")
     private String productImageUrl;
+
+    public AppStore(String name, Integer price, String description, String productImageUrl) {
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.productImageUrl = productImageUrl;
+    }
 }
