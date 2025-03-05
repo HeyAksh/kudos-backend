@@ -1,13 +1,14 @@
 package Model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
@@ -19,15 +20,38 @@ public class Event {
 
     private String title;
     private String location;
-    private Integer attendees;
     private String description;
-    private String status;
     private String featured;
     private String category;
-
+    private String status;
     private String eventImageUrl;
 
-    @ManyToOne
-    @JoinColumn(name = "employee_id", referencedColumnName = "employeeId")
-    private Employee employee;
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinTable(
+            name = "event_attendees",
+            joinColumns = @JoinColumn(name = "event_id"),
+            inverseJoinColumns = @JoinColumn(name = "employee_id")
+    )
+    private Set<Employee> attendeesList = new HashSet<>();
+
+    public void addEmployee(Employee employee) {
+        attendeesList.add(employee);
+        employee.getEventsAttended().add(this);
+    }
+
+    public Integer getAttendeesCount() {
+        return attendeesList.size();
+    }
+
+    public Event( String title, String location, String description, String featured,
+                  String category, String status, String eventImageUrl, Set<Employee> attendeesList) {
+        this.title = title;
+        this.location = location;
+        this.description = description;
+        this.featured = featured;
+        this.category = category;
+        this.status = status;
+        this.eventImageUrl = eventImageUrl;
+        this.attendeesList = attendeesList;
+    }
 }
