@@ -4,6 +4,7 @@ import Exceptions.EventNotFoundException;
 import Model.Event;
 import Repository.EventRepository;
 import Requests.AddEventRequest;
+import Requests.EventUpdateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -52,13 +53,13 @@ public class EventService implements iEventService {
 
 
     @Override
-    public Event updateEvent(Integer eventId,Event request) {
+    public Event updateEvent(Integer eventId, EventUpdateRequest request) {
         Event existingEvent = getEventById(eventId);
         helperForUpdateEvent(existingEvent,request);
         return eventRepository.save(existingEvent);
     }
 
-    private void helperForUpdateEvent(Event existingEvent, Event request){
+    private void helperForUpdateEvent(Event existingEvent, EventUpdateRequest request){
         existingEvent.setCategory(request.getCategory());
         existingEvent.setDescription(request.getDescription());
         existingEvent.setStatus(request.getStatus());

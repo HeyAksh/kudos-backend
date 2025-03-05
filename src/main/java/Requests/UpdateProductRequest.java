@@ -1,13 +1,11 @@
 package Requests;
 
-import jakarta.persistence.Column;
 import lombok.Data;
 
 @Data
-public class AddProductRequest {
+public class UpdateProductRequest {
     private String name;
     private Integer price;
     private String description;
     private String productImageUrl;
-
 }

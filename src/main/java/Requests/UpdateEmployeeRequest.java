@@ -7,7 +7,6 @@ import java.util.Set;
 
 @Data
 public class UpdateEmployeeRequest {
-    private Integer employeeId;
     private String firstName;
     private String lastName;
     private String gender;

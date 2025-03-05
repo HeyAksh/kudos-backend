@@ -4,6 +4,7 @@ import Exceptions.ProductNotFoundException;
 import Model.AppStore;
 import Repository.AppStoreRepository;
 import Requests.AddProductRequest;
+import Requests.UpdateProductRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,13 +48,13 @@ public class AppStoreService implements iAppStoreInterface{
     }
 
     @Override
-    public AppStore updateProduct(Integer id, AppStore request) {
+    public AppStore updateProduct(Integer id, UpdateProductRequest request) {
         AppStore existingProduct = getProductById(id);
         helperForUpdatingProduct(existingProduct,request);
         return appStoreRepository.save(existingProduct);
     }
 
-    private void helperForUpdatingProduct(AppStore existingProduct , AppStore request){
+    private void helperForUpdatingProduct(AppStore existingProduct , UpdateProductRequest request){
         existingProduct.setName(request.getName());
         existingProduct.setPrice(request.getPrice());
         existingProduct.setDescription(request.getDescription());

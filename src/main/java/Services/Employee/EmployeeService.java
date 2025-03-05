@@ -5,6 +5,7 @@ import Model.Employee;
 import Model.Event;
 import Repository.EmployeeRepository;
 import Requests.AddEmployeeRequest;
+import Requests.UpdateEmployeeRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,13 +49,13 @@ public class EmployeeService implements iEmployeeService{
     }
 
     @Override
-    public Employee updateEmployee(Integer id, Employee request) {
+    public Employee updateEmployee(Integer id, UpdateEmployeeRequest request) {
         Employee existingEmployee = getEmployeeById(id);
         helperUpdateEmployee(existingEmployee,request);
         return employeeRepository.save(existingEmployee);
     }
 
-    private void helperUpdateEmployee(Employee existingEmployee , Employee request){
+    private void helperUpdateEmployee(Employee existingEmployee , UpdateEmployeeRequest request){
         existingEmployee.setGender(request.getGender());
         existingEmployee.setEmail(request.getEmail());
         existingEmployee.setFirstName(request.getFirstName());
