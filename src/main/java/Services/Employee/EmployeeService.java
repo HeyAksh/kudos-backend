@@ -1,6 +1,7 @@
 package Services.Employee;
 
 import Model.Employee;
+import Model.Event;
 import Repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,6 +49,17 @@ public class EmployeeService implements iEmployeeService{
         }
         else {
             return null;
+        }
+    }
+
+    @Override
+    public List<Event> getEventsById(Integer id) {
+        Employee employee = getEmployeeById(id);
+        if (employee == null) {
+            return null;
+        }
+        else {
+            return employee.getEvents();
         }
     }
 }

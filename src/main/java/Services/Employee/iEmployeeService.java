@@ -1,6 +1,7 @@
 package Services.Employee;
 
 import Model.Employee;
+import Model.Event;
 
 import java.util.List;
 
@@ -10,4 +11,5 @@ public interface iEmployeeService {
     boolean deleteEmployeeById(Integer id);
     List<Employee> getAllEmployees();
     Employee updateEmployee(Integer id, Employee employee);
+    List<Event> getEventsById(Integer id);
 }
