@@ -1,28 +1,33 @@
 package Services.Event;
 
-import Model.Events;
+import Model.Event;
+import Repository.EventRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
+@Service
 public class EventService implements iEventService {
+
+    @Autowired
+    private EventRepository eventRepository;
+
     @Override
-    public Events addEvent(Integer employeeId, Events event) {
-        return null;
+    public Event addEvent(Event event) {
+        return eventRepository.save(event);
     }
 
     @Override
-    public List<Events> getAllEvents() {
-        return List.of();
+    public List<Event> getAllEvents() {
+        return eventRepository.findAll();
     }
 
     @Override
-    public Events getEventById(Integer eventId) {
-        return null;
-    }
-
-    @Override
-    public List<Events> getEventsByEmployeeId(Integer employeeId) {
-        return List.of();
+    public Event getEventById(Integer eventId) {
+        Optional<Event> event = eventRepository.findById(eventId);
+        return event.orElse(null);
     }
 
     @Override
@@ -32,7 +37,7 @@ public class EventService implements iEventService {
 
 
     @Override
-    public Events updateEvent(Integer eventId, Events updatedEvent) {
+    public Event updateEvent(Integer eventId, Event updatedEvent) {
         return null;
     }
 }

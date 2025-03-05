@@ -1,6 +1,5 @@
 package Model;
 
-import Model.Employee;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,7 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "events")
-public class Events {
+public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer eventId;

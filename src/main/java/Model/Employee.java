@@ -31,7 +31,7 @@ public class Employee {
     private Integer points;
 
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Events> events;
+    private List<Event> events;
 
 
 }

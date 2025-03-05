@@ -1,7 +1,7 @@
 package Repository;
 
-import Model.Events;
+import Model.Event;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface EventRepository extends JpaRepository<Events,Integer> {
+public interface EventRepository extends JpaRepository<Event,Integer> {
 }
