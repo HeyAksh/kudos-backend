@@ -18,6 +18,9 @@ public class SecurityConfiguration {
     @Autowired
     CustomUserDetailService customUserDetailService;
 
+    @Autowired
+    CustomPasswordEncoder customPasswordEncoder;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
@@ -33,7 +36,7 @@ public class SecurityConfiguration {
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
+        provider.setPasswordEncoder(customPasswordEncoder.getPasswordEncoder());
         provider.setUserDetailsService(customUserDetailService);
         return provider;
     }

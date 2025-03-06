@@ -13,10 +13,13 @@ public class AddEmployeeRequest {
     @NotBlank(message = "Last Name is required")
     private String lastName;
 
-    @NotBlank(message = "Gender is required")
-    private String gender;
-
     @Email(message = "Invalid email format")
     @NotBlank(message = "Email is required")
     private String email;
+
+    @NotBlank(message = "Password is required")
+    private String password;
+
+    @NotBlank(message = "Gender is required")
+    private String gender;
 }
