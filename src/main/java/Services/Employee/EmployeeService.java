@@ -1,11 +1,14 @@
 package Services.Employee;
 
 import Exceptions.EmployeeNotFoundException;
+import Exceptions.ProductNotFoundException;
+import Model.AppStore;
 import Model.Employee;
 import Model.Event;
 import Repository.EmployeeRepository;
 import Requests.AddEmployeeRequest;
 import Requests.UpdateEmployeeRequest;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,18 +19,12 @@ public class EmployeeService implements iEmployeeService{
     @Autowired
     private EmployeeRepository employeeRepository;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     @Override
     public Employee addEmployee(AddEmployeeRequest request) {
-        return employeeRepository.save(helperAddEmployee(request));
-    }
-
-    private Employee helperAddEmployee(AddEmployeeRequest request){
-        return new Employee(
-                request.getFirstName(),
-                request.getLastName(),
-                request.getGender(),
-                request.getEmail()
-        );
+        return employeeRepository.save(modelMapper.map(request, Employee.class));
     }
 
     @Override
@@ -48,18 +45,16 @@ public class EmployeeService implements iEmployeeService{
 
     @Override
     public Employee updateEmployee(Integer id, UpdateEmployeeRequest request) {
-        Employee existingEmployee = getEmployeeById(id);
-        helperUpdateEmployee(existingEmployee,request);
-        return employeeRepository.save(existingEmployee);
-    }
-
-    private void helperUpdateEmployee(Employee existingEmployee , UpdateEmployeeRequest request){
-        existingEmployee.setGender(request.getGender());
-        existingEmployee.setEmail(request.getEmail());
-        existingEmployee.setFirstName(request.getFirstName());
-        existingEmployee.setKudos(request.getPoints());
-        existingEmployee.setLastName(request.getLastName());
-        existingEmployee.setEventsAttended(request.getEventsAttended());
+        Employee employee;
+        try {
+            employee = getEmployeeById(id);
+        }
+        catch (ProductNotFoundException e) {
+            throw new EmployeeNotFoundException("Employee to be updated does not exist");
+        }
+        employee = modelMapper.map(request, Employee.class);
+        employee.setEmployeeId(id);
+        return employeeRepository.save(employee);
     }
 
     @Override
@@ -82,7 +77,4 @@ public class EmployeeService implements iEmployeeService{
             throw new RuntimeException("Unexpected Error Occurred while fetching Kudos by Email");
         }
     }
-
-
-
 }

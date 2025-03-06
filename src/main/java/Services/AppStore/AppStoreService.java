@@ -5,6 +5,7 @@ import Model.AppStore;
 import Repository.AppStoreRepository;
 import Requests.AddProductRequest;
 import Requests.UpdateProductRequest;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,18 +17,12 @@ public class AppStoreService implements iAppStoreInterface{
     @Autowired
     private AppStoreRepository appStoreRepository;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     @Override
     public AppStore addProduct(AddProductRequest request) {
-        return appStoreRepository.save(helperForAddingProduct(request));
-    }
-
-    private AppStore helperForAddingProduct(AddProductRequest request){
-        return new AppStore(
-                request.getName(),
-                request.getPrice(),
-                request.getDescription(),
-                request.getProductImageUrl()
-        );
+        return appStoreRepository.save(modelMapper.map(request, AppStore.class));
     }
 
     @Override
@@ -49,15 +44,15 @@ public class AppStoreService implements iAppStoreInterface{
 
     @Override
     public AppStore updateProduct(Integer id, UpdateProductRequest request) {
-        AppStore existingProduct = getProductById(id);
-        helperForUpdatingProduct(existingProduct,request);
-        return appStoreRepository.save(existingProduct);
-    }
-
-    private void helperForUpdatingProduct(AppStore existingProduct , UpdateProductRequest request){
-        existingProduct.setTitle(request.getName());
-        existingProduct.setPrice(request.getPrice());
-        existingProduct.setDescription(request.getDescription());
-        existingProduct.setProductImageUrl(request.getProductImageUrl());
+        AppStore product;
+        try {
+            product = getProductById(id);
+        }
+        catch (ProductNotFoundException e) {
+            throw new ProductNotFoundException("Product to be updated does not exist");
+        }
+        product = modelMapper.map(request, AppStore.class);
+        product.setId(id);
+        return appStoreRepository.save(product);
     }
 }
