@@ -1,5 +1,6 @@
 package Model;
 
+import Requests.AddEventRequest;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,15 +17,16 @@ import java.util.Set;
 public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer eventId;
-
+    private Integer id;
     private String title;
+    private String date;
+    private String time;
     private String location;
-    private String description;
-    private String featured;
+    private String image;
     private String category;
+    private Integer attendees;
     private String status;
-    private String eventImageUrl;
+    private boolean featured;
 
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(
@@ -33,6 +35,10 @@ public class Event {
             inverseJoinColumns = @JoinColumn(name = "employee_id")
     )
     private Set<Employee> attendeesList = new HashSet<>();
+
+    public Event(AddEventRequest request) {
+
+    }
 
     public void addEmployee(Employee employee) {
         attendeesList.add(employee);
@@ -43,15 +49,14 @@ public class Event {
         return attendeesList.size();
     }
 
-    public Event( String title, String location, String description, String featured,
+    public Event( String title, String location, String description, boolean featured,
                   String category, String status, String eventImageUrl, Set<Employee> attendeesList) {
         this.title = title;
         this.location = location;
-        this.description = description;
         this.featured = featured;
         this.category = category;
         this.status = status;
-        this.eventImageUrl = eventImageUrl;
+        this.image = eventImageUrl;
         this.attendeesList = attendeesList;
     }
 }

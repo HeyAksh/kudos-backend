@@ -5,38 +5,32 @@ import Model.Event;
 import Repository.EventRepository;
 import Requests.AddEventRequest;
 import Requests.EventUpdateRequest;
+import Response.EventResponse;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class EventService implements iEventService {
-
     @Autowired
     private EventRepository eventRepository;
 
-    @Override
-    public Event addEvent(AddEventRequest request) {
-       return eventRepository.save(helperForEvent(request));
-    }
-
-    private Event helperForEvent(AddEventRequest request){
-        return new Event(
-                request.getTitle(),
-                request.getLocation(),
-                request.getDescription(),
-                request.getFeatured(),
-                request.getCategory(),
-                request.getStatus(),
-                request.getEventImageUrl(),
-                request.getAttendeesList()
-        );
-    }
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Override
-    public List<Event> getAllEvents() {
-        return eventRepository.findAll();
+    public List<EventResponse> getAllEvents() {
+        List<Event> events = eventRepository.findAll();
+        List<EventResponse> eventResponses = new ArrayList<>();
+
+        for (Event event : events) {
+            eventResponses.add(modelMapper.map(event, EventResponse.class));
+        }
+
+        return eventResponses;
     }
 
     @Override
@@ -49,24 +43,5 @@ public class EventService implements iEventService {
     public void deleteEvent(Integer eventId) {
         eventRepository.findById(eventId).ifPresentOrElse(eventRepository::delete,
                 ()->{throw new EventNotFoundException("Event Not Found!");});
-    }
-
-
-    @Override
-    public Event updateEvent(Integer eventId, EventUpdateRequest request) {
-        Event existingEvent = getEventById(eventId);
-        helperForUpdateEvent(existingEvent,request);
-        return eventRepository.save(existingEvent);
-    }
-
-    private void helperForUpdateEvent(Event existingEvent, EventUpdateRequest request){
-        existingEvent.setCategory(request.getCategory());
-        existingEvent.setDescription(request.getDescription());
-        existingEvent.setStatus(request.getStatus());
-        existingEvent.setLocation(request.getLocation());
-        existingEvent.setTitle(request.getTitle());
-        existingEvent.setEventImageUrl(request.getEventImageUrl());
-        existingEvent.setFeatured(request.getFeatured());
-        existingEvent.setAttendeesList(request.getAttendeesList());
     }
 }
