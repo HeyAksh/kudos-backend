@@ -21,14 +21,14 @@ public class EmployeeController {
 
     @GetMapping("/get_employee_by_id/{employeeId}")
     public ResponseEntity<ApiResponse> getEmployeeById(
-            @PathVariable("employeeId")Integer id
-    ){
+            @PathVariable("employeeId") Integer id
+    ) {
         try {
             Employee response = employeeservice.getEmployeeById(id);
-            return ResponseEntity.ok(new ApiResponse("Information Retrieval Successful",response));
+            return ResponseEntity.ok(new ApiResponse("Information Retrieval Successful", response));
         } catch (EmployeeNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND)
-                    .body(new ApiResponse("Employee Not Found",e.getMessage()));
+                    .body(new ApiResponse("Employee Not Found", e.getMessage()));
         }
     }
 
@@ -40,13 +40,13 @@ public class EmployeeController {
     @DeleteMapping("/delete_employee_by_id/{employeeId}")
     public ResponseEntity<ApiResponse> deleteEmployeeById(
             @PathVariable("employeeId") Integer id
-    ){
+    ) {
         try {
             employeeservice.deleteEmployeeById(id);
             return ResponseEntity.ok(new ApiResponse(String.format("Employee with Id %d deleted successfully", id),
                     Collections.emptyMap()));
         } catch (EmployeeNotFoundException e) {
-            return ResponseEntity.status(NOT_FOUND).body(new ApiResponse("Employee Not Found",e.getMessage()));
+            return ResponseEntity.status(NOT_FOUND).body(new ApiResponse("Employee Not Found", e.getMessage()));
         }
     }
 
