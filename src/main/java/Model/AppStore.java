@@ -17,7 +17,7 @@ public class AppStore {
     private Integer id;
 
     @Column(nullable = false)
-    private String name;
+    private String title;
 
     private Integer price;
 
@@ -28,7 +28,7 @@ public class AppStore {
     private String productImageUrl;
 
     public AppStore(String name, Integer price, String description, String productImageUrl) {
-        this.name = name;
+        this.title = name;
         this.price = price;
         this.description = description;
         this.productImageUrl = productImageUrl;
