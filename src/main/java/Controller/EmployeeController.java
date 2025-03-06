@@ -5,8 +5,10 @@ import Exceptions.EventNotFoundException;
 import Model.Employee;
 import Model.Event;
 import Requests.AddEmployeeRequest;
+import Requests.UpdateEmployeeRequest;
 import Response.ApiResponse;
 import Services.Employee.EmployeeService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,7 +84,7 @@ public class EmployeeController {
 
     @PostMapping("/add-employee")
     public ResponseEntity<ApiResponse> addEmployee(
-            @RequestBody AddEmployeeRequest request
+            @Valid @RequestBody AddEmployeeRequest request
     ){
         try {
             Employee response = employeeservice.addEmployee(request);
@@ -91,6 +93,24 @@ public class EmployeeController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ApiResponse("Failed to Add Employee", e.getMessage()));
+        }
+    }
+
+
+    @PutMapping("/update-employee/{employeeId}")
+    public ResponseEntity<ApiResponse> updateEmployee(
+            @PathVariable("employeeId") Integer id,  // Mention Path Variable Name
+            @Valid @RequestBody UpdateEmployeeRequest request
+    ) {
+        try {
+            Employee response = employeeservice.updateEmployee(id, request);
+            return ResponseEntity.ok(new ApiResponse("Updated Information of Employee", response));
+        } catch (EmployeeNotFoundException e) {
+            return ResponseEntity.status(NOT_FOUND)
+                    .body(new ApiResponse("Employee Not Found", e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponse("Failed to update employee", e.getMessage()));
         }
     }
 }
