@@ -36,9 +36,7 @@ public class Event {
     )
     private Set<Employee> attendeesList = new HashSet<>();
 
-    public Event(AddEventRequest request) {
-
-    }
+    public final static String ACTIVE = "active", COMPLETED = "completed", UPCOMING = "upcoming";
 
     public void addEmployee(Employee employee) {
         attendeesList.add(employee);

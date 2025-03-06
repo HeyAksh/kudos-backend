@@ -26,4 +26,16 @@ public class EventController {
         return ResponseEntity.ok(new ApiResponse("information retrival successfull",
                 eventService.getAllEvents()));
     }
+
+    @GetMapping("/get-total-number-of-events")
+    public ResponseEntity<ApiResponse> getNumberOfEvents() {
+        return ResponseEntity.ok(new ApiResponse("information retrival successfull",
+                eventService.getNumberOfEvents()));
+    }
+
+    @GetMapping("/get-number-of-active-events")
+    public ResponseEntity<ApiResponse> getNumberOfActiveEvents() {
+        return ResponseEntity.ok(new ApiResponse("information retrival successfull",
+                eventService.getNumberOfActiveEvents()));
+    }
 }

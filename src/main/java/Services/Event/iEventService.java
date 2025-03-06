@@ -12,5 +12,7 @@ public interface iEventService {
     List<EventResponse> getAllEvents();
     Event getEventById(Integer eventId);
     void deleteEvent(Integer eventId);
+    Long getNumberOfEvents();
+    Long getNumberOfActiveEvents();
     //Event updateEvent(Integer eventId, EventUpdateRequest request);
 }

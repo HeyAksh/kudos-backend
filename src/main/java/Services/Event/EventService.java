@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class EventService implements iEventService {
@@ -43,5 +44,24 @@ public class EventService implements iEventService {
     public void deleteEvent(Integer eventId) {
         eventRepository.findById(eventId).ifPresentOrElse(eventRepository::delete,
                 ()->{throw new EventNotFoundException("Event Not Found!");});
+    }
+
+    @Override
+    public Long getNumberOfEvents() {
+        return eventRepository.count();
+    }
+
+    @Override
+    public Long getNumberOfActiveEvents() {
+        List<Event> events = eventRepository.findAll();
+        Long res = 0L;
+
+        for(Event event : events) {
+            if (Objects.equals(event.getStatus(), Event.ACTIVE)) {
+                res++;
+            }
+        }
+
+        return res;
     }
 }
