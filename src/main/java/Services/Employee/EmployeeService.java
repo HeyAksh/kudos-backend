@@ -24,7 +24,9 @@ public class EmployeeService implements iEmployeeService{
 
     @Override
     public Employee addEmployee(AddEmployeeRequest request) {
-        return employeeRepository.save(modelMapper.map(request, Employee.class));
+        Employee employee = modelMapper.map(request, Employee.class);
+        employee.setKudos(0);
+        return employeeRepository.save(employee);
     }
 
     @Override

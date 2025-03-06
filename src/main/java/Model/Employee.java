@@ -21,6 +21,8 @@ public class Employee {
     private String lastName;
 
     private String gender;
+    @NotNull
+    @Column(unique = true)
     private String username;
     private String password;
 

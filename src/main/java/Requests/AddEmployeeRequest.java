@@ -13,6 +13,9 @@ public class AddEmployeeRequest {
     @NotBlank(message = "Last Name is required")
     private String lastName;
 
+    @NotBlank(message = "User name is required")
+    private String username;
+
     @Email(message = "Invalid email format")
     @NotBlank(message = "Email is required")
     private String email;
