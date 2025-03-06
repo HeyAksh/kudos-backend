@@ -21,5 +21,3 @@ logging:
         SQL: DEBUG
         type: TRACE
 
-api:
-  prefix: /api/v1

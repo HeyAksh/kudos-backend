@@ -5,6 +5,7 @@ import Model.Employee;
 import Response.ApiResponse;
 import Services.Employee.EmployeeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,10 +15,9 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("${api.prefix}/employee")
+@RequestMapping("/employee")
 public class EmployeeController {
     private final EmployeeService employeeservice;
-
 
     @GetMapping("/get_employee_by_id/{employeeId}")
     public ResponseEntity<ApiResponse> getEmployeeById(
