@@ -13,6 +13,4 @@ public class AddEmployeeRequest {
     private String lastName;
     private String gender;
     private String email;
-    private Integer points;
-    private Set<Event> eventsAttended;
 }

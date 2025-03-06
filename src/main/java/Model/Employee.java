@@ -40,12 +40,10 @@ public class Employee {
     }
 
     public Employee( String firstName, String lastName, String gender,
-                    String email, Integer points, Set<Event> eventsAttended) {
+                    String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
         this.email = email;
-        this.points = points;
-        this.eventsAttended = eventsAttended;
     }
 }

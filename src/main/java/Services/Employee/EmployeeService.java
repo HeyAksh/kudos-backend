@@ -26,9 +26,7 @@ public class EmployeeService implements iEmployeeService{
                 request.getFirstName(),
                 request.getLastName(),
                 request.getGender(),
-                request.getEmail(),
-                request.getPoints(),
-                request.getEventsAttended()
+                request.getEmail()
         );
     }
 
