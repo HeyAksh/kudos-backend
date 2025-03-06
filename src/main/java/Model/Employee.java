@@ -31,7 +31,7 @@ public class Employee {
     @Column(columnDefinition = "integer default 0")
     private Integer points;
 
-    @ManyToMany(mappedBy = "attendeesList", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(mappedBy = "attendeesList", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     private Set<Event> eventsAttended = new HashSet<>();
 
     public void attendEvent(Event event) {
