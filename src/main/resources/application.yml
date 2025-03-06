@@ -4,10 +4,10 @@ spring:
     username: postgres
     password: heyaksh
     driver-class-name: org.postgresql.Driver
-
   jpa:
     hibernate:
       ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
     properties:
       hibernate:
@@ -20,3 +20,6 @@ logging:
       hibernate:
         SQL: DEBUG
         type: TRACE
+
+api:
+  prefix: /api/v1
