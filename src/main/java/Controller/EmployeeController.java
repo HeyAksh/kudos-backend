@@ -10,8 +10,6 @@ import Response.ApiResponse;
 import Services.Employee.EmployeeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.weaver.ast.Not;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +25,7 @@ import static org.springframework.http.HttpStatus.*;
 public class EmployeeController {
     private final EmployeeService employeeservice;
 
-    @GetMapping("/get_employee_by_id/{employeeId}")
+    @GetMapping("/get-employee-by-id/{employeeId}")
     public ResponseEntity<ApiResponse> getEmployeeById(
             @PathVariable("employeeId") Integer id
     ) {
@@ -45,7 +43,7 @@ public class EmployeeController {
         return "hi";
     }
 
-    @DeleteMapping("/delete_employee_by_id/{employeeId}")
+    @DeleteMapping("/delete-employee-by-id/{employeeId}")
     public ResponseEntity<ApiResponse> deleteEmployeeById(
             @PathVariable("employeeId") Integer id
     ) {
@@ -54,11 +52,12 @@ public class EmployeeController {
             return ResponseEntity.ok(new ApiResponse(String.format("Employee with Id %d deleted successfully", id),
                     Collections.emptyMap()));
         } catch (EmployeeNotFoundException e) {
-            return ResponseEntity.status(NOT_FOUND).body(new ApiResponse("Employee Not Found", e.getMessage()));
+            return ResponseEntity.status(NOT_FOUND)
+                    .body(new ApiResponse("Employee Not Found", e.getMessage()));
         }
     }
 
-    @GetMapping("/get_all_employees")
+    @GetMapping("/get-all-employees")
     public ResponseEntity<ApiResponse> getAllEmployees() {
         try {
             List<Employee> response = employeeservice.getAllEmployees();
