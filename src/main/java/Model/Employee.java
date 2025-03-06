@@ -29,7 +29,7 @@ public class Employee {
     private String email;
 
     @Column(columnDefinition = "integer default 0")
-    private Integer points;
+    private Integer kudos;
 
     @ManyToMany(mappedBy = "attendeesList", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     private Set<Event> eventsAttended = new HashSet<>();

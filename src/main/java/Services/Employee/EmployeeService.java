@@ -57,7 +57,7 @@ public class EmployeeService implements iEmployeeService{
         existingEmployee.setGender(request.getGender());
         existingEmployee.setEmail(request.getEmail());
         existingEmployee.setFirstName(request.getFirstName());
-        existingEmployee.setPoints(request.getPoints());
+        existingEmployee.setKudos(request.getPoints());
         existingEmployee.setLastName(request.getLastName());
         existingEmployee.setEventsAttended(request.getEventsAttended());
     }
@@ -67,4 +67,22 @@ public class EmployeeService implements iEmployeeService{
         Employee employee = getEmployeeById(id);
         return employee.getEventsAttended().isEmpty() ? null : List.copyOf(employee.getEventsAttended());
     }
+
+    @Override
+    public Integer getKudosByEmailId(String email) {
+        try {
+            Employee employee = employeeRepository.findByEmail(email);
+            if (employee == null) {
+                throw new EmployeeNotFoundException("Employee with email " + email + " not found!");
+            }
+            return employee.getKudos();
+        } catch (EmployeeNotFoundException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new RuntimeException("Unexpected Error Occurred while fetching Kudos by Email");
+        }
+    }
+
+
+
 }

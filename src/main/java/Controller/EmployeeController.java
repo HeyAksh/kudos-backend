@@ -98,7 +98,7 @@ public class EmployeeController {
 
     @PutMapping("/update-employee/{employeeId}")
     public ResponseEntity<ApiResponse> updateEmployee(
-            @PathVariable("employeeId") Integer id,  // Mention Path Variable Name
+            @PathVariable("employeeId") Integer id,
             @Valid @RequestBody UpdateEmployeeRequest request
     ) {
         try {
@@ -110,6 +110,19 @@ public class EmployeeController {
         } catch (Exception e) {
             return ResponseEntity.status(INTERNAL_SERVER_ERROR)
                     .body(new ApiResponse("Failed to update employee", e.getMessage()));
+        }
+    }
+
+    @GetMapping("/get-kudos-from-emailId/{emailId}")
+    public ResponseEntity<ApiResponse> getKudos(
+            @PathVariable("emailId") String email
+    ){
+        try {
+            Integer kudos = employeeservice.getKudosByEmailId(email);
+            return ResponseEntity.ok(new ApiResponse("Information Fetched Successfully",kudos));
+        } catch (Exception e) {
+            return  ResponseEntity.status(INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponse("Error Occured",e.getMessage()));
         }
     }
 }

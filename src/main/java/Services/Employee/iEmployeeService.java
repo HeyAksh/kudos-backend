@@ -14,4 +14,5 @@ public interface iEmployeeService {
     List<Employee> getAllEmployees();
     Employee updateEmployee(Integer id, UpdateEmployeeRequest employee);
     List<Event> getEventsByEmployeeId(Integer id);
+    Integer getKudosByEmailId(String email);
 }
