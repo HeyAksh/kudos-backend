@@ -1,6 +1,7 @@
 package Model;
 
 import Requests.AddEventRequest;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,14 +35,18 @@ public class Event {
             joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "employee_id")
     )
-    private Set<Employee> attendeesList = new HashSet<>();
+    @JsonBackReference
+    private Set<Integer> attendeesList = new HashSet<>();
 
     public static final String ACTIVE = "active", COMPLETED = "completed", UPCOMING = "upcoming";
 
     public void addEmployee(Employee employee) {
-        attendeesList.add(employee);
-        employee.getEventsAttended().add(this);
+        if (!attendeesList.contains(employee)) { // Avoid duplicate entries
+            attendeesList.add(employee);
+            employee.getEventsAttended().add(this); // Maintain both sides automatically
+        }
     }
+
 
     public Integer getAttendeesCount() {
         return attendeesList.size();

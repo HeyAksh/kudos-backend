@@ -15,4 +15,5 @@ public interface iEventService {
     Long getNumberOfEvents();
     Long getNumberOfActiveEvents();
     Event updateEvent(Integer eventId, EventUpdateRequest request);
+
 }

@@ -5,18 +5,26 @@ import Exceptions.EmployeeNotFoundException;
 import Model.Employee;
 import Model.Event;
 import Repository.EmployeeRepository;
+import Repository.EventRepository;
 import Requests.AddEmployeeRequest;
 import Requests.UpdateEmployeeRequest;
+import Services.Event.EventService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
 public class EmployeeService implements iEmployeeService{
     @Autowired
     private EmployeeRepository employeeRepository;
+    @Autowired
+    private EventService eventservice;
+    @Autowired
+    private EventRepository eventrepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -65,10 +73,14 @@ public class EmployeeService implements iEmployeeService{
     }
 
     @Override
-    public List<Event> getEventsByEmployeeId(Integer id) {
+    public List<Integer> getEventsByEmployeeId(Integer id) {
         Employee employee = getEmployeeById(id);
-        return employee.getEventsAttended().isEmpty() ? null : List.copyOf(employee.getEventsAttended());
+        if (employee.getEventsAttended() == null || employee.getEventsAttended().isEmpty()) {
+            return Collections.emptyList();
+        }
+        return new ArrayList<>(employee.getEventsAttended());
     }
+
 
     @Override
     public Integer getKudosByEmailId(String email) {
@@ -92,6 +104,14 @@ public class EmployeeService implements iEmployeeService{
         return employee;
     }
 
+    @Override
+    public void registerEvent(String email, Integer eventId) {
+        Employee employee = getEmployeeByEmail(email);
+        Event event = eventservice.getEventById(eventId);
 
+        employee.attendEvent(eventId);
+
+        employeeRepository.save(employee);
+    }
 
 }

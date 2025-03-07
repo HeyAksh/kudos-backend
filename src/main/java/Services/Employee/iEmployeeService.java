@@ -4,6 +4,7 @@ import Model.Employee;
 import Model.Event;
 import Requests.AddEmployeeRequest;
 import Requests.UpdateEmployeeRequest;
+import jakarta.persistence.criteria.CriteriaBuilder;
 
 import java.util.List;
 
@@ -14,7 +15,8 @@ public interface iEmployeeService {
     void deleteEmployeeById(Integer id);
     List<Employee> getAllEmployees();
     Employee updateEmployee(Integer id, UpdateEmployeeRequest employee);
-    List<Event> getEventsByEmployeeId(Integer id);
+    List<Integer> getEventsByEmployeeId(Integer id);
     Integer getKudosByEmailId(String email);
     Employee updateKudos(String email,Integer newKudos);
+    void registerEvent(String email,Integer eventId);
 }

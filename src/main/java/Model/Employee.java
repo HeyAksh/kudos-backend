@@ -1,5 +1,6 @@
 package Model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -33,13 +34,16 @@ public class Employee {
     @Column(columnDefinition = "integer default 0")
     private Integer kudos;
 
-    @ManyToMany(mappedBy = "attendeesList", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
-    private Set<Event> eventsAttended = new HashSet<>();
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "employee_events", joinColumns = @JoinColumn(name = "employee_id"))
+    @Column(name = "event_id")
+    private Set<Integer> eventsAttended = new HashSet<>();
 
-    public void attendEvent(Event event) {
-        eventsAttended.add(event);
-        event.getAttendeesList().add(this);
+    public void attendEvent(Integer eventId) {
+        eventsAttended.add(eventId);
     }
+
+
 
     public Employee( String firstName, String lastName, String gender,
                     String email) {

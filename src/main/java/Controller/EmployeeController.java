@@ -1,9 +1,10 @@
 package Controller;
 
+import Dtos.RegisterEvent;
 import Exceptions.EmployeeNotFoundException;
 import Exceptions.EventNotFoundException;
+import Exceptions.EventRegistrationFailed;
 import Model.Employee;
-import Model.Event;
 import Requests.AddEmployeeRequest;
 import Requests.GetKudos;
 import Requests.UpdateEmployeeRequest;
@@ -69,7 +70,7 @@ public class EmployeeController {
             @PathVariable("employeeId") Integer id
     ) {
         try {
-            List<Event> response = employeeservice.getEventsByEmployeeId(id);
+            List<Integer> response = employeeservice.getEventsByEmployeeId(id);
             return ResponseEntity.ok(new ApiResponse("Information Retrieval Successful", response));
         } catch (EventNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND)
@@ -132,6 +133,20 @@ public class EmployeeController {
         } catch (Exception e) {
             return ResponseEntity.status(INTERNAL_SERVER_ERROR)
                     .body(new ApiResponse("Failed to Update Kudos",e.getMessage()));
+        }
+    }
+
+    @PutMapping("/register-event")
+    public ResponseEntity<ApiResponse> registerEvent(@RequestBody RegisterEvent request) {
+        try {
+            employeeservice.registerEvent(request.getEmail(), request.getEventId());
+            return ResponseEntity.ok(new ApiResponse("Event Registration Successful", null));
+        } catch (EventRegistrationFailed e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponse("Event Registration Failed", e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ApiResponse("Invalid Request", e.getMessage()));
         }
     }
 }
