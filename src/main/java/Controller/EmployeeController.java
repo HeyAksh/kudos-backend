@@ -38,11 +38,6 @@ public class EmployeeController {
         }
     }
 
-    @GetMapping("/say-hi")
-    public String sayHi() {
-        return "hi";
-    }
-
     @DeleteMapping("/delete-employee-by-id/{employeeId}")
     public ResponseEntity<ApiResponse> deleteEmployeeById(
             @PathVariable("employeeId") Integer id

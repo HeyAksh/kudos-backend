@@ -1,6 +1,7 @@
 package Model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,28 +10,15 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "appstore")
 public class AppStore {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    @Column(nullable = false)
     private String title;
-
     private Integer price;
-
-    @Column(columnDefinition = "TEXT")
     private String description;
-
-    @Column(name = "productImageUrl")
-    private String productImageUrl;
-
-    public AppStore(String name, Integer price, String description, String productImageUrl) {
-        this.title = name;
-        this.price = price;
-        this.description = description;
-        this.productImageUrl = productImageUrl;
-    }
+    private String category;
+    private String image;
 }

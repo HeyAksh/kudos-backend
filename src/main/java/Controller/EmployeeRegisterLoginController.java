@@ -19,7 +19,7 @@ public class EmployeeRegisterLoginController {
     EmployeeRegisterLoginService employeeRegisterLoginService;
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse> registerEmployee(AddEmployeeRequest employeeRequest) {
+    public ResponseEntity<ApiResponse> registerEmployee(@RequestBody AddEmployeeRequest employeeRequest) {
         try {
             Employee employee = employeeRegisterLoginService.registerEmployee(employeeRequest);
             return ResponseEntity.ok(new ApiResponse("new user created", employee));

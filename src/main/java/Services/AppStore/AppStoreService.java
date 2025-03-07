@@ -5,10 +5,12 @@ import Model.AppStore;
 import Repository.AppStoreRepository;
 import Requests.AddProductRequest;
 import Requests.UpdateProductRequest;
+import Response.AppStoreResponse;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -38,8 +40,16 @@ public class AppStoreService implements iAppStoreInterface{
     }
 
     @Override
-    public List<AppStore> getAllProducts() {
-        return appStoreRepository.findAll();
+    public List<AppStoreResponse> getAllProducts() {
+        List<AppStore> products = appStoreRepository.findAll();
+
+        List<AppStoreResponse> res = new ArrayList<>();
+
+        for(AppStore product : products) {
+            res.add(modelMapper.map(product, AppStoreResponse.class));
+        }
+
+        return res;
     }
 
     @Override

@@ -5,6 +5,7 @@ import Model.AppStore;
 import Requests.AddProductRequest;
 import Requests.UpdateProductRequest;
 import Response.ApiResponse;
+import Response.AppStoreResponse;
 import Services.AppStore.AppStoreService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -56,7 +57,7 @@ public class AppStoreController {
     @GetMapping("get-all-products")
     public ResponseEntity<ApiResponse> getAllProducts(){
         try {
-            List<AppStore> response = appstoreservice.getAllProducts();
+            List<AppStoreResponse> response = appstoreservice.getAllProducts();
             return ResponseEntity.ok(new ApiResponse("Information Retrieval Successful",response));
         } catch (ProductNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT)
