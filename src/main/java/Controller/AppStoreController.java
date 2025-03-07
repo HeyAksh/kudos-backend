@@ -1,5 +1,6 @@
 package Controller;
 
+import Dtos.IntegerId;
 import Exceptions.ProductNotFoundException;
 import Model.AppStore;
 import Requests.AddProductRequest;
@@ -25,12 +26,12 @@ public class AppStoreController {
 
     private final AppStoreService appstoreservice;
 
-    @GetMapping("/get-product-by-id/{productId}")
+    @GetMapping("/get-product-by-id")
     public ResponseEntity<ApiResponse> getProductById(
-            @PathVariable("productId") Integer id
+            @RequestBody IntegerId integerid
             ){
         try {
-            AppStore response = appstoreservice.getProductById(id);
+            AppStore response = appstoreservice.getProductById(integerid.getId());
             return ResponseEntity.ok(new ApiResponse("Information Retrieval Successful",response));
         } catch (ProductNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -38,12 +39,12 @@ public class AppStoreController {
         }
     }
 
-    @DeleteMapping("/delete-product-by-id/{productId}")
+    @DeleteMapping("/delete-product-by-id")
     public ResponseEntity<ApiResponse> deleteProductById(
-            @PathVariable("productId") Integer id
+            @RequestBody IntegerId integerid
     ){
         try {
-            appstoreservice.deleteProductById(id);
+            appstoreservice.deleteProductById(integerid.getId());
             return ResponseEntity.ok(new ApiResponse("Product Deleted Successfully",null));
         } catch (ProductNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND)
@@ -75,13 +76,13 @@ public class AppStoreController {
         }
     }
 
-    @PutMapping("update-product/{productId}")
+    @PutMapping("update-product-by-id")
     public ResponseEntity<ApiResponse> updateProduct(
-            @PathVariable("productId")Integer id,
+            @RequestBody IntegerId integerid,
             @Valid @RequestBody UpdateProductRequest request
             ){
         try {
-            AppStore response = appstoreservice.updateProduct(id,request);
+            AppStore response = appstoreservice.updateProduct(integerid.getId(),request);
             return ResponseEntity.ok(new ApiResponse("Product Updated Successfully",response));
         } catch (Exception e) {
             return ResponseEntity.status(INTERNAL_SERVER_ERROR)

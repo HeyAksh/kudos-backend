@@ -1,5 +1,6 @@
 package Controller;
 
+import Dtos.IntegerId;
 import Model.Event;
 import Requests.AddEventRequest;
 import Requests.EventUpdateRequest;
@@ -53,13 +54,13 @@ public class EventController {
         }
     }
 
-    @PutMapping("/update-event-by-id/{eventId}")
+    @PutMapping("/update-event-by-id")
     public ResponseEntity<ApiResponse> updateEvent(
-            @PathVariable("eventId") Integer id,
+            @RequestBody IntegerId integerid,
             @Valid @RequestBody EventUpdateRequest request
             ){
         try {
-            Event response = eventService.updateEvent(id,request);
+            Event response = eventService.updateEvent(integerid.getId(),request);
             return ResponseEntity.ok(new ApiResponse("Event Information Updated Successfully",response));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

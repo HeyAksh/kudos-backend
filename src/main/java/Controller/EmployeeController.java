@@ -1,5 +1,7 @@
 package Controller;
 
+import Dtos.EmailId;
+import Dtos.IntegerId;
 import Dtos.RegisterEvent;
 import Exceptions.EmployeeNotFoundException;
 import Exceptions.EventNotFoundException;
@@ -28,12 +30,12 @@ import static org.springframework.http.HttpStatus.*;
 public class EmployeeController {
     private final EmployeeService employeeservice;
 
-    @GetMapping("/get-employee-by-id/{employeeId}")
+    @GetMapping("/get-employee-by-id")
     public ResponseEntity<ApiResponse> getEmployeeById(
-            @PathVariable("employeeId") Integer id
-    ) {
+            @RequestBody IntegerId integerid
+            ) {
         try {
-            Employee response = employeeservice.getEmployeeById(id);
+            Employee response = employeeservice.getEmployeeById(integerid.getId());
             return ResponseEntity.ok(new ApiResponse("Information Retrieval Successful", response));
         } catch (EmployeeNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND)
@@ -41,13 +43,13 @@ public class EmployeeController {
         }
     }
 
-    @DeleteMapping("/delete-employee-by-id/{employeeId}")
+    @DeleteMapping("/delete-employee-by-id")
     public ResponseEntity<ApiResponse> deleteEmployeeById(
-            @PathVariable("employeeId") Integer id
+           @RequestBody IntegerId integerid
     ) {
         try {
-            employeeservice.deleteEmployeeById(id);
-            return ResponseEntity.ok(new ApiResponse(String.format("Employee with Id %d deleted successfully", id),
+            employeeservice.deleteEmployeeById(integerid.getId());
+            return ResponseEntity.ok(new ApiResponse(String.format("Employee with Id %d deleted successfully", integerid.getId()),
                     Collections.emptyMap()));
         } catch (EmployeeNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND)
@@ -66,12 +68,12 @@ public class EmployeeController {
         }
     }
 
-    @GetMapping("/get-events-by-employee-id/{employeeId}")
+    @GetMapping("/get-events-by-employee-id")
     public ResponseEntity<ApiResponse> getEventsByEmployeeId(
-            @PathVariable("employeeId") Integer id
+            @RequestBody IntegerId integerid
     ) {
         try {
-            List<Integer> response = employeeservice.getEventsByEmployeeId(id);
+            List<Integer> response = employeeservice.getEventsByEmployeeId(integerid.getId());
             return ResponseEntity.ok(new ApiResponse("Information Retrieval Successful", response));
         } catch (EventNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND)
@@ -111,12 +113,12 @@ public class EmployeeController {
         }
     }
 
-    @GetMapping("/get-kudos-from-emailId/{emailId}")
+    @GetMapping("/get-kudos-from-emailId")
     public ResponseEntity<ApiResponse> getKudos(
-            @PathVariable("emailId") String email
-    ){
+            @RequestBody EmailId emailid
+            ){
         try {
-            Integer kudos = employeeservice.getKudosByEmailId(email);
+            Integer kudos = employeeservice.getKudosByEmailId(emailid.getEmail());
             return ResponseEntity.ok(new ApiResponse("Information Fetched Successfully",kudos));
         } catch (Exception e) {
             return  ResponseEntity.status(INTERNAL_SERVER_ERROR)
