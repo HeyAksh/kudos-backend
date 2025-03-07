@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication
 @EntityScan(basePackages = "Model")
 @ComponentScan(basePackages = {"Controller", "Services.Employee", "Services.AppStore",
-		"Services.Event", "Security", "ModelMapper"})
+		"Services.Event", "Services", "Security", "ModelMapper"})
 @EnableJpaRepositories("Repository")
 public class KudosApplication {
 	public static void main(String[] args) {
