@@ -17,5 +17,5 @@ public class EventUpdateRequest {
     private String status;
     private String image;
     private Integer attendees;
-    private Set<Employee> attendeesList;
+    private Set<Integer> attendeesList;
 }
