@@ -51,7 +51,7 @@ public class EmployeeService implements iEmployeeService{
         try {
             employee = getEmployeeById(id);
         }
-        catch (ProductNotFoundException e) {
+        catch (EmployeeNotFoundException e) {
             throw new EmployeeNotFoundException("Employee to be updated does not exist");
         }
         employee = modelMapper.map(request, Employee.class);

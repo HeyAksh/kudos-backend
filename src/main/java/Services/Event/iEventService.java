@@ -8,11 +8,11 @@ import Response.EventResponse;
 import java.util.List;
 
 public interface iEventService {
-//    Event addEvent(AddEventRequest request);
+    EventResponse addEvent(AddEventRequest request);
     List<EventResponse> getAllEvents();
     Event getEventById(Integer eventId);
     void deleteEvent(Integer eventId);
     Long getNumberOfEvents();
     Long getNumberOfActiveEvents();
-    //Event updateEvent(Integer eventId, EventUpdateRequest request);
+    Event updateEvent(Integer eventId, EventUpdateRequest request);
 }
