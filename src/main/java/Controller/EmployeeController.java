@@ -21,6 +21,7 @@ import java.util.List;
 
 import static org.springframework.http.HttpStatus.*;
 
+@CrossOrigin
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/employee")

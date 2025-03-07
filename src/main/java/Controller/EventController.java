@@ -1,6 +1,5 @@
 package Controller;
 
-import Dtos.IntegerId;
 import Exceptions.EventNotFoundException;
 import Model.Event;
 import Requests.AddEventRequest;
@@ -8,32 +7,26 @@ import Requests.EventUpdateRequest;
 import Response.ApiResponse;
 import Response.EventResponse;
 import Services.Event.EventService;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+import static org.springframework.http.HttpStatus.NOT_FOUND;
+
+@CrossOrigin
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/events")
 public class EventController {
     @Autowired
     private  EventService eventService;
-
-    @GetMapping("/get-event-by-id")
-    public ResponseEntity<ApiResponse> getEventById(
-            @RequestBody IntegerId geteventbyid
-            ){
-        try {
-            Event response =  eventService.getEventById(geteventbyid.getId());
-            return ResponseEntity.ok(new ApiResponse("Event Fetching Succesful",response));
-        } catch (EventNotFoundException e) {
-            return  ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new ApiResponse("Event Not Found!",e.getMessage()));
-        }
-    }
 
     @GetMapping("/get-all-events")
     public ResponseEntity<ApiResponse> getAllEvents() {
@@ -81,10 +74,4 @@ public class EventController {
         }
     }
 
-    @GetMapping("get-no-of-employees-for-a-event")
-    public ResponseEntity<ApiResponse> getTotalEmployeesForAnEvent(
-            @RequestBody IntegerId id
-    ){
-
-    }
 }
