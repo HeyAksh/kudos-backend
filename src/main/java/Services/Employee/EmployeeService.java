@@ -1,8 +1,7 @@
 package Services.Employee;
 
+
 import Exceptions.EmployeeNotFoundException;
-import Exceptions.ProductNotFoundException;
-import Model.AppStore;
 import Model.Employee;
 import Model.Event;
 import Repository.EmployeeRepository;
@@ -33,6 +32,12 @@ public class EmployeeService implements iEmployeeService{
     public Employee getEmployeeById(Integer id) {
         return employeeRepository.findById(id).orElseThrow(()-> new EmployeeNotFoundException("Employee Not Found"));
     }
+
+    @Override
+    public Employee getEmployeeByEmail(String email) {
+        return null;
+    }
+
 
     @Override
     public void deleteEmployeeById(Integer id) {
@@ -79,4 +84,14 @@ public class EmployeeService implements iEmployeeService{
             throw new RuntimeException("Unexpected Error Occurred while fetching Kudos by Email");
         }
     }
+
+    @Override
+    public Employee updateKudos(String email, Integer newKudos) {
+        Employee employee = employeeRepository.findByEmail(email);
+        employee.setKudos(newKudos);
+        return employee;
+    }
+
+
+
 }

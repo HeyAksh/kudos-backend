@@ -5,6 +5,7 @@ import Exceptions.EventNotFoundException;
 import Model.Employee;
 import Model.Event;
 import Requests.AddEmployeeRequest;
+import Requests.GetKudos;
 import Requests.UpdateEmployeeRequest;
 import Response.ApiResponse;
 import Services.Employee.EmployeeService;
@@ -120,4 +121,20 @@ public class EmployeeController {
                     .body(new ApiResponse("Error Occured",e.getMessage()));
         }
     }
+
+    @PutMapping("update-kudos")
+    public ResponseEntity<ApiResponse> updateKudos(
+            @Valid @RequestBody GetKudos getkudos
+            ){
+        try {
+            Employee response = employeeservice.updateKudos(getkudos.getEmail(),getkudos.getNewKudos());
+            return ResponseEntity.ok(new ApiResponse("Kudos Updated Successfully",response));
+        } catch (Exception e) {
+            return ResponseEntity.status(INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponse("Failed to Update Kudos",e.getMessage()));
+        }
+    }
+
+
+
 }
