@@ -78,7 +78,6 @@ public class EventService implements iEventService {
         event.setLocation(request.getLocation());
         event.setCategory(request.getCategory());
         event.setAttendeesList(request.getAttendeesList());
-        event.setAttendees(request.getAttendees());
         event.setDate(request.getDate());
         event.setTime(request.getTime());
         event.setId(request.getId());
