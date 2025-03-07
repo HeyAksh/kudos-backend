@@ -1,7 +1,7 @@
 spring:
   web:
     cors:
-      allowed-origins: "http://localhost:3000, https://your-frontend-domain.com" # Add your frontend domain here
+      allowed-origins: "http://localhost:3000, https://kudos-roan-xi.vercel.app"
       allowed-methods: GET, POST, PUT, DELETE, PATCH
       allowed-headers: "*"
       allow-credentials: true
