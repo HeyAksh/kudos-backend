@@ -37,7 +37,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Add CORS Configuration Here
+                .cors(Customizer.withDefaults()) // This enables your CORS Configuration Bean
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/employee/**").authenticated()
                         .anyRequest().permitAll()
@@ -47,6 +47,7 @@ public class SecurityConfiguration {
 
         return http.build();
     }
+
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {

@@ -20,3 +20,16 @@ logging:
       hibernate:
         SQL: DEBUG
         type: TRACE
+
+#zoom:
+#  client:
+#    id: e4ie07eJRxW1bG2IPKgSA
+#    secret: AjA8sIqtYqe93Ay1LuBbGJ4neEB6ZvcP
+#  account:
+#    id: nLirxCW-TdKUNlGKoT5jgA
+#  api:
+#    base-url: https://api.zoom.us/v2
+#    email: 23bcs017@nith.ac.in
+#  meeting:
+#    duration: 60
+#    timezone: Asia/Kolkata
