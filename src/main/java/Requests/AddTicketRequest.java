@@ -1,22 +1,14 @@
-package Model;
+package Requests;
 
-import jakarta.persistence.*;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
-import java.util.List;
-
-@Entity
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
-@Table(name = "Ticket")
-public class Ticket {
-    @Id
+@Data
+public class AddTicketRequest {
+    @NotNull
     private Integer id;
     @NotNull
     private String heading;

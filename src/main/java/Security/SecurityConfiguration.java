@@ -38,15 +38,22 @@ public class SecurityConfiguration {
         return
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .cors(Customizer.withDefaults()) // This enables your CORS Configuration Bean
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/employee/**").authenticated()
                         .anyRequest().permitAll()
                 )
+<<<<<<< Updated upstream
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
+=======
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+
+        return http.build();
+>>>>>>> Stashed changes
     }
+
 
 
     @Bean
@@ -61,6 +68,12 @@ public class SecurityConfiguration {
         provider.setUserDetailsService(customUserDetailService);
         return provider;
     }
+    @Bean
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = corsConfigurationSource();
+        return new CorsFilter(source);
+    }
+
 
     @Bean
     public UrlBasedCorsConfigurationSource corsConfigurationSource() {
