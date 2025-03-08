@@ -65,7 +65,7 @@ public class SecurityConfiguration {
     @Bean
     public UrlBasedCorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("https://kudos-roan-xi.vercel.app")); // Add your frontend URL here
+        config.setAllowedOrigins(List.of("*"));//"https://kudos-roan-xi.vercel.app")); // Add your frontend URL here
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
