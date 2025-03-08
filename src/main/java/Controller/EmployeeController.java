@@ -144,10 +144,15 @@ public class EmployeeController {
         try {
             employeeservice.registerEvent(request.getEmail(), request.getEventId());
             return ResponseEntity.ok(new ApiResponse("Event Registration Successful", null));
-        } catch (EventRegistrationFailed e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+        } catch (EventNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ApiResponse("Event Registration Failed", e.getMessage()));
-        } catch (Exception e) {
+        }
+        catch (EmployeeNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ApiResponse("Employee not found", e.getMessage()));
+        }
+        catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ApiResponse("Invalid Request", e.getMessage()));
         }
