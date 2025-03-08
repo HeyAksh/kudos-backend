@@ -16,7 +16,7 @@ public class AddEmployeeRequest {
     @NotBlank(message = "User name is required")
     private String username;
 
-    @Email(message = "Invalid email format")
+    @Email(message = "Invalid username format")
     @NotBlank(message = "Email is required")
     private String email;
 

@@ -1,11 +1,10 @@
 package Controller;
 
-import Dtos.EmailId;
 import Dtos.IntegerId;
 import Dtos.RegisterEvent;
+import Dtos.Username;
 import Exceptions.EmployeeNotFoundException;
 import Exceptions.EventNotFoundException;
-import Exceptions.EventRegistrationFailed;
 import Model.Employee;
 import Requests.AddEmployeeRequest;
 import Requests.GetKudos;
@@ -113,12 +112,12 @@ public class EmployeeController {
         }
     }
 
-    @GetMapping("/get-kudos-from-emailId")
+    @GetMapping("/get-kudos-from-username")
     public ResponseEntity<ApiResponse> getKudos(
-            @RequestBody EmailId emailid
+            @RequestBody Username username
             ){
         try {
-            Integer kudos = employeeservice.getKudosByEmailId(emailid.getEmail());
+            Integer kudos = employeeservice.getKudosByUsername(username.getUsername());
             return ResponseEntity.ok(new ApiResponse("Information Fetched Successfully",kudos));
         } catch (Exception e) {
             return  ResponseEntity.status(INTERNAL_SERVER_ERROR)
@@ -142,7 +141,7 @@ public class EmployeeController {
     @PutMapping("/register-event")
     public ResponseEntity<ApiResponse> registerEvent(@RequestBody RegisterEvent request) {
         try {
-            employeeservice.registerEvent(request.getEmail(), request.getEventId());
+            employeeservice.registerEvent(request.getUsername(), request.getEventId());
             return ResponseEntity.ok(new ApiResponse("Event Registration Successful", null));
         } catch (EventNotFoundException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)

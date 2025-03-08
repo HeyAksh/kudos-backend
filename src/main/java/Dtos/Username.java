@@ -3,7 +3,6 @@ package Dtos;
 import lombok.Data;
 
 @Data
-public class RegisterEvent {
+public class Username {
     String username;
-    Integer eventId;
 }

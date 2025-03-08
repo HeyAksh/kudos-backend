@@ -28,7 +28,7 @@ public class EmployeeRegisterLoginController {
         } catch (DataIntegrityViolationException e) {
             return ResponseEntity
                     .status(HttpStatus.CONFLICT)
-                    .body(new ApiResponse("User with this email or username already exists", null));
+                    .body(new ApiResponse("User with this username or username already exists", null));
         }
     }
 

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EmployeeService implements iEmployeeService{
@@ -42,13 +43,8 @@ public class EmployeeService implements iEmployeeService{
     }
 
     @Override
-    public Employee getEmployeeByEmail(String email) {
-        try {
-            return employeeRepository.findByEmail(email);
-        }
-        catch (Exception e) {
-            throw new EmployeeNotFoundException("Employee not found");
-        }
+    public Employee getEmployeeByUsername(String username) {
+        return employeeRepository.findByUsername(username).orElseThrow(()-> new EmployeeNotFoundException("Employee Not Found"));
     }
 
 
@@ -88,30 +84,31 @@ public class EmployeeService implements iEmployeeService{
 
 
     @Override
-    public Integer getKudosByEmailId(String email) {
-        try {
-            Employee employee = employeeRepository.findByEmail(email);
-            if (employee == null) {
-                throw new EmployeeNotFoundException("Employee with email " + email + " not found!");
-            }
-            return employee.getKudos();
-        } catch (EmployeeNotFoundException e) {
-            throw e;
-        } catch (Exception e) {
-            throw new RuntimeException("Unexpected Error Occurred while fetching Kudos by Email");
+    public Integer getKudosByUsername(String username) {
+        Optional<Employee> employee = employeeRepository.findByUsername(username);
+        if (employee.isEmpty()) {
+            throw new EmployeeNotFoundException("Employee not found");
+        }
+        else {
+            return employee.get().getKudos();
         }
     }
 
     @Override
     public Employee updateKudos(String email, Integer newKudos) {
-        Employee employee = employeeRepository.findByEmail(email);
-        employee.setKudos(newKudos);
-        return employee;
+        Optional<Employee> employee = employeeRepository.findByUsername(email);
+        if (employee.isPresent()) {
+            employee.get().setKudos(newKudos);
+            return employee.get();
+        }
+        else {
+            throw new EmployeeNotFoundException("Employee not found");
+        }
     }
 
     @Override
-    public void registerEvent(String email, Integer eventId) {
-        Employee employee = getEmployeeByEmail(email);
+    public void registerEvent(String username, Integer eventId) {
+        Employee employee = getEmployeeByUsername(username);
         Event event = eventservice.getEventById(eventId);
 
         employee.attendEvent(eventId);
