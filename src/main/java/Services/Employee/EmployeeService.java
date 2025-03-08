@@ -43,7 +43,12 @@ public class EmployeeService implements iEmployeeService{
 
     @Override
     public Employee getEmployeeByEmail(String email) {
-        return null;
+        try {
+            return employeeRepository.findByEmail(email);
+        }
+        catch (Exception e) {
+            throw new EmployeeNotFoundException("Employee not found");
+        }
     }
 
 

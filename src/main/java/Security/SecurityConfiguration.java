@@ -43,15 +43,9 @@ public class SecurityConfiguration {
                         .requestMatchers("/employee/**").authenticated()
                         .anyRequest().permitAll()
                 )
-<<<<<<< Updated upstream
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
-=======
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-
-        return http.build();
->>>>>>> Stashed changes
     }
 
 
