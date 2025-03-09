@@ -1,7 +1,8 @@
 package Security;
 
+import Exceptions.EmployeeNotFoundException;
 import Model.Employee;
-import Repository.EmployeeRepository;
+import Services.Employee.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,26 +10,25 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
-
 @Component
 public class CustomUserDetailService implements UserDetailsService {
     @Autowired
-    private EmployeeRepository employeeRepository;
+    EmployeeService employeeService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<Employee> employee = employeeRepository.findByUsername(username);
-
-        if (employee.isEmpty()) {
-            throw new UsernameNotFoundException("user with the name " + username + " does not exist");
+        Employee employee;
+        try {
+            employee = employeeService.getEmployeeByUsername(username);
+        } catch (EmployeeNotFoundException e) {
+            throw new UsernameNotFoundException(e.getMessage());
         }
 
         return User
                 .builder()
-                .username(employee.get().getUsername())
-                .password(employee.get().getPassword())
-                .roles(employee.get().getUsername())
+                .username(employee.getUsername())
+                .password(employee.getPassword())
+                .roles(employee.getUsername())
                 .build();
     }
 }

@@ -1,6 +1,7 @@
 package Services;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
-import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import java.util.Date;
@@ -42,6 +42,7 @@ public class JWTService {
         return claimResolver.apply(claims);
     }
 
+
     private Claims extractAllClaims(String token) {
         return Jwts.parser()
                 .verifyWith(getKey())
@@ -50,20 +51,15 @@ public class JWTService {
                 .getPayload();
     }
 
-    public boolean validateToken(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
-    }
-
-    private boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
-    }
-
-    private Date extractExpiration(String token) {
-        return extractClaim(token, Claims::getExpiration);
+    public boolean validateToken(String token, UserDetails userDetails) throws JwtException {
+        Claims claims;
+        // parseSignedClaims in extract all claims function throws a JwtException if the token is invalid
+        claims = extractAllClaims(token);
+        return claims.getSubject().equals(userDetails.getUsername()) && claims.getExpiration().after(new Date());
     }
 
     public String generateToken(String username) {
+        // claims is the list of extra data we can add to the token
         Map<String, Object> claims = new HashMap<>();
 
         return Jwts
